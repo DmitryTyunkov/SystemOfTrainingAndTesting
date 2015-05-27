@@ -212,6 +212,12 @@ namespace SystemOfTrainingAndTesting
             listBoxTests.Size = new System.Drawing.Size(this.ClientSize.Width - 26, this.ClientSize.Height - labelTitle.Location.Y - labelTitle.Height - 13 * 3 - 23);
             listBoxTests.Visible = true;
             listBoxTests.Location = new System.Drawing.Point(13, labelTitle.Height + labelTitle.Location.Y + 13);
+            listBoxTests.SelectionMode = SelectionMode.One;
+            Find.FindTests();
+            foreach (string item in TestsInfo.titleAndDescription)
+            {
+                listBoxTests.Items.Add(item);
+            }
             this.Controls.Add(listBoxTests);
             #endregion
             #region Добавляем кнопку "Выбрать"
