@@ -24,12 +24,11 @@ namespace SystemOfTrainingAndTesting
         {
             NpgsqlConnection npgsqlConnection;
             npgsqlConnection = ConnectionToDB.Connection();
-            NpgsqlCommand npgsqlCommand = new NpgsqlCommand(string.Format("SELECT * FROM users WHERE login = '{0}' AND password = '{1}'", loginString, passwordString),npgsqlConnection);
+            NpgsqlCommand npgsqlCommand = new NpgsqlCommand(string.Format("SELECT * FROM users WHERE login = '{0}' AND password = '{1}'", loginString, passwordString), npgsqlConnection);
             NpgsqlDataReader npgsqlDataReader = npgsqlCommand.ExecuteReader();
             DbDataReader dbDataReader = npgsqlDataReader;
             return dbDataReader;
         }
-
         /// <summary>
         /// Метод для поиска тестов в базе данных
         /// </summary>
@@ -37,7 +36,7 @@ namespace SystemOfTrainingAndTesting
         {
             NpgsqlConnection npgsqlConnection;
             npgsqlConnection = ConnectionToDB.Connection();
-            NpgsqlCommand npgsqlCommand = new NpgsqlCommand(string.Format("SELECT id, concat(title,'. ',description), number_of_questions FROM tests"),npgsqlConnection);
+            NpgsqlCommand npgsqlCommand = new NpgsqlCommand(string.Format("SELECT id, concat(title,'. ',description), number_of_questions FROM tests"), npgsqlConnection);
             NpgsqlDataReader npgsqlDataReader = npgsqlCommand.ExecuteReader();
             DbDataReader dbDataReader = npgsqlDataReader;
             return dbDataReader;

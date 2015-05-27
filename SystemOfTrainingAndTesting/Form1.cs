@@ -14,6 +14,9 @@ namespace SystemOfTrainingAndTesting
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Строка информации о пользователе
+        /// </summary>
         private string userString;
 
         public Form1()
@@ -366,7 +369,7 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-           CreateMainWindow();
+            CreateMainWindow();
         }
 
     }

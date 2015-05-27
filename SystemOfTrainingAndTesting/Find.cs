@@ -45,7 +45,6 @@ namespace SystemOfTrainingAndTesting
                 return false;
             }
         }
-
         /// <summary>
         /// Метод для поиска тестов
         /// </summary>
