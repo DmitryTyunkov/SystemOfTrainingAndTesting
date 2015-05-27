@@ -15,13 +15,14 @@ namespace SystemOfTrainingAndTesting
     public partial class Form1 : Form
     {
         private string userString;
-        private int userAccess;
 
         public Form1()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Метод для создания главного окна
+        /// </summary>
         private void CreateMainWindow()
         {
             #region Убираем элементы с формы
@@ -74,7 +75,7 @@ namespace SystemOfTrainingAndTesting
             this.Controls.Add(buttonTesting);
             #endregion
             #region Добавление кнопки в зависимости от привелегий пользователя
-            switch (userAccess)
+            switch (UserInfo.level)
             {
                 case 0:
                     #region Добавляем кнопку "Управление"
@@ -110,7 +111,9 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #endregion
         }
-
+        /// <summary>
+        /// Метод для создания окна обучения
+        /// </summary>
         private void CreateTrainingWindow()
         {
             #region Убираем элементы с формы
@@ -172,7 +175,9 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #endregion
         }
-
+        /// <summary>
+        /// Метод для создания окна тестирования
+        /// </summary>
         private void CreateTestingWindow()
         {
             #region Убираем элементы с формы
@@ -234,7 +239,9 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #endregion
         }
-
+        /// <summary>
+        /// Метод для создания окна статистики
+        /// </summary>
         private void CreateStatisticsWindow()
         {
             #region Убираем элементы с формы
@@ -307,7 +314,7 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonAuthorization_Click(object sender, EventArgs e)
         {
-            if (Authorization.Auth(this.textBoxLogin.Text, this.textBoxPassword.Text, out userString, out userAccess))
+            if (Authorization.Auth(this.textBoxLogin.Text, this.textBoxPassword.Text, out userString))
             {
                 #region Изменяем размеры и параметры формы
                 this.ClientSize = new System.Drawing.Size(640, 480);
