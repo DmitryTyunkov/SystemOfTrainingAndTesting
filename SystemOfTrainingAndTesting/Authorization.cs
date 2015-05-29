@@ -21,7 +21,7 @@ namespace SystemOfTrainingAndTesting
         /// <returns></returns>
         internal static bool Auth(string loginString, string passwordString, out string userString)
         {
-            if (Find.FindUser(loginString, passwordString))
+            if (Find.FindUser(loginString.Trim().ToLower(), passwordString.Trim()))
             {
                 userString = UserInfo.login + " (" + UserInfo.lastName + " " + UserInfo.name.Substring(0, 1) + ". " + UserInfo.middleName.Substring(0, 1) + ".)";
                 return true;

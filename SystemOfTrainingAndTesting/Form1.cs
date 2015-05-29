@@ -18,6 +18,26 @@ namespace SystemOfTrainingAndTesting
         /// Строка информации о пользователе
         /// </summary>
         private string userString;
+        /// <summary>
+        /// Строка с названием и описанием выбранного теста
+        /// </summary>
+        private string selectTestString;
+        /// <summary>
+        /// Строка с ответом
+        /// </summary>
+        private string selectAnswerString;
+        /// <summary>
+        /// Номер вопроса
+        /// </summary>
+        private int questionNumber;
+        /// <summary>
+        /// Список верных ответов
+        /// </summary>
+        private List<int> correctAnswers = new List<int>();
+        /// <summary>
+        /// Список ответов
+        /// </summary>
+        private List<string> answerString = new List<string>();
 
         public Form1()
         {
@@ -144,7 +164,7 @@ namespace SystemOfTrainingAndTesting
                 labelUser.Height + labelUser.Location.Y + 13);
             this.Controls.Add(labelTitle);
             #endregion
-            #region Добавляем listBox с доступными тестами
+            #region Добавляем listBox с доступными темами
             System.Windows.Forms.ListBox listBoxThems = new System.Windows.Forms.ListBox();
             listBoxThems.Parent = this;
             listBoxThems.TabIndex = 0;
@@ -186,6 +206,7 @@ namespace SystemOfTrainingAndTesting
             #region Убираем элементы с формы
             this.Controls.Clear();
             #endregion
+            Find.FindTests();
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
             System.Windows.Forms.Label labelUser = new System.Windows.Forms.Label();
@@ -216,11 +237,12 @@ namespace SystemOfTrainingAndTesting
             listBoxTests.Visible = true;
             listBoxTests.Location = new System.Drawing.Point(13, labelTitle.Height + labelTitle.Location.Y + 13);
             listBoxTests.SelectionMode = SelectionMode.One;
-            Find.FindTests();
             foreach (string item in TestsInfo.titleAndDescription)
             {
                 listBoxTests.Items.Add(item);
             }
+            listBoxTests.SelectedIndexChanged += new System.EventHandler(listBoxTests_SelectedIndexChanged);
+            listBoxTests.SelectedIndex = 0;
             this.Controls.Add(listBoxTests);
             #endregion
             #region Добавляем кнопку "Выбрать"
@@ -320,6 +342,118 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #endregion
         }
+        /// <summary>
+        /// Метод для создания окна вопроса
+        /// </summary>
+        private void CreateQuestionWindow()
+        {
+            #region Убираем элементы с формы
+            this.Controls.Clear();
+            #endregion
+            selectAnswerString = null;
+            Find.FindAnswers(QuestionsInfo.id[questionNumber]);
+            #region Размещаем нужные элементы на форме
+            #region Добавляем label для отображения информации о пользователе
+            System.Windows.Forms.Label labelUser = new System.Windows.Forms.Label();
+            labelUser.Parent = this;
+            labelUser.Text = userString;
+            labelUser.AutoSize = true;
+            labelUser.Visible = true;
+            labelUser.Location = new System.Drawing.Point(this.ClientSize.Width - (labelUser.Width + 13), 13);
+            this.Controls.Add(labelUser);
+            #endregion
+            #region Добавляем label для отображения вопроса
+            System.Windows.Forms.Label labelQuestion = new System.Windows.Forms.Label();
+            labelQuestion.Parent = this;
+            labelQuestion.Text = QuestionsInfo.question[questionNumber];
+            int position = 0;
+            while (position < labelQuestion.Text.Length - 30)
+            {
+                position = labelQuestion.Text.IndexOf(" ", position + 30);
+                if (position > 0)
+                {
+                    labelQuestion.Text = labelQuestion.Text.Insert(position, "\r\n");
+                }
+                else
+                {
+                    position = labelQuestion.Text.Length;
+                }
+            }
+            labelQuestion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            labelQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F,
+                System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            labelQuestion.AutoSize = true;
+            labelQuestion.Visible = true;
+            labelQuestion.Location = new System.Drawing.Point(this.ClientSize.Width / 2 - labelQuestion.Width / 2,
+                labelUser.Height + labelUser.Location.Y + 13);
+            this.Controls.Add(labelQuestion);
+            #endregion
+            #region Добавляем ответы
+            System.Drawing.Point answerLocation = new System.Drawing.Point();
+            switch (QuestionsInfo.typeAnswer[questionNumber])
+            {
+                #region Выбор одного варианта ответа
+                case 0:
+                    for (int i = 0; i < AnswersInfo.answer.Count; i++)
+                    {
+                        System.Windows.Forms.RadioButton radioButtonAnswer = new System.Windows.Forms.RadioButton();
+                        radioButtonAnswer.Parent = this;
+                        radioButtonAnswer.Text = AnswersInfo.answer[i];
+                        radioButtonAnswer.Visible = true;
+                        radioButtonAnswer.AutoSize = true;
+                        radioButtonAnswer.Location = new System.Drawing.Point(13,labelQuestion.Height + labelQuestion.Location.Y + 13 + i*3*13);
+                        answerLocation = radioButtonAnswer.Location;
+                        radioButtonAnswer.CheckedChanged += new EventHandler(radioButtonAnswer_CheckedChanged);
+                        if (answerString.Contains(radioButtonAnswer.Text))
+                        {
+                            radioButtonAnswer.Checked = true;
+                        }
+                        this.Controls.Add(radioButtonAnswer);
+                    }
+                    break;
+                #endregion
+            }
+            #endregion
+            #region Добавляем кнопку "Следующий"
+            System.Windows.Forms.Button buttonNext = new System.Windows.Forms.Button();
+            buttonNext.Parent = this;
+            if (questionNumber == QuestionsInfo.id.Count - 1)
+            {
+                buttonNext.Text = "Завершить";
+            }
+            else
+            {
+                buttonNext.Text = "Следующий";
+            }
+            buttonNext.Size = new System.Drawing.Size(85, 23);
+            buttonNext.Location = new System.Drawing.Point(this.ClientSize.Width - buttonNext.Width - 13,
+                answerLocation.Y + 13 * 3);
+            buttonNext.Visible = true;
+            buttonNext.TabIndex = AnswersInfo.answer.Count + 2;
+            buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            this.Controls.Add(buttonNext);
+            #endregion
+            #region Добавить кнопку "Предыдущий"
+            System.Windows.Forms.Button buttonPrevious = new System.Windows.Forms.Button();
+            buttonPrevious.Parent = this;
+            buttonPrevious.Text = "Предыдущий";
+            buttonPrevious.Size = new System.Drawing.Size(85, 23);
+            buttonPrevious.Location = new System.Drawing.Point(13, answerLocation.Y + 13 * 3);
+            buttonPrevious.Visible = true;
+            if (questionNumber == 0)
+            {
+                buttonPrevious.Enabled = false;
+            }
+            else
+            {
+                buttonPrevious.Enabled = true;
+            }
+            buttonPrevious.TabIndex = AnswersInfo.answer.Count + 1;
+            buttonPrevious.Click += new System.EventHandler(this.buttonPrevious_Click);
+            this.Controls.Add(buttonPrevious);
+            #endregion
+            #endregion
+        }
 
         private void buttonAuthorization_Click(object sender, EventArgs e)
         {
@@ -364,7 +498,15 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonSelect_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Click to select button", "Click message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            int index = TestsInfo.titleAndDescription.IndexOf(selectTestString);
+            Find.FindQuestions(TestsInfo.id[index]);
+            #region Сброс в начальное значение счетчика и очистка списков
+            questionNumber = 0;
+            correctAnswers.Clear();
+            answerString.Clear();
+            #endregion
+            CreateQuestionWindow();
+            //MessageBox.Show("Click to select button", "Click message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -372,5 +514,77 @@ namespace SystemOfTrainingAndTesting
             CreateMainWindow();
         }
 
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            #region Добавление очередного ответа в список и проверка на правильность
+            if (selectAnswerString != null)
+            {
+                answerString.Add(selectAnswerString);
+                int index = AnswersInfo.answer.IndexOf(selectAnswerString);
+                if (AnswersInfo.correctAnswer[index])
+                {
+                    if (!correctAnswers.Contains(QuestionsInfo.id[questionNumber]))
+                    {
+                        correctAnswers.Add(QuestionsInfo.id[questionNumber]);
+                    }
+                }
+                else
+                {
+                    if (correctAnswers.Contains(QuestionsInfo.id[questionNumber]))
+                    {
+                        correctAnswers.Remove(QuestionsInfo.id[questionNumber]);
+                    }
+                }
+            }
+            #endregion
+            questionNumber++;
+            #region Выбор действия в зависимости от типа кнопки
+            if (questionNumber == QuestionsInfo.id.Count)
+            {
+                MessageBox.Show(correctAnswers.Count.ToString());
+                CreateMainWindow();
+            }
+            else
+            {
+                CreateQuestionWindow();
+            }
+            #endregion
+        }
+
+        private void buttonPrevious_Click(object sender, EventArgs e)
+        {
+            #region Добавление очередного ответа в список
+            if (selectAnswerString != null)
+            {
+                answerString.Add(selectAnswerString);
+            }
+            #endregion
+            questionNumber--;
+            CreateQuestionWindow();
+        }
+
+        private void listBoxTests_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ListBox listBox = sender as System.Windows.Forms.ListBox;
+            if (listBox == null)
+            {
+                return;
+            }
+            selectTestString = listBox.SelectedItem.ToString();
+        }
+
+        private void radioButtonAnswer_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.RadioButton radioButton = sender as System.Windows.Forms.RadioButton;
+            if (radioButton == null)
+            {
+                return;
+            }
+            if (radioButton.Checked)
+            {
+                selectAnswerString = radioButton.Text;
+            }
+            
+        }
     }
 }

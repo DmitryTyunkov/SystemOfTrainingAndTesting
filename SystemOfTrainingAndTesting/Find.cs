@@ -50,6 +50,11 @@ namespace SystemOfTrainingAndTesting
         /// </summary>
         internal static void FindTests()
         {
+            #region Удаление старой информации о тестах
+            TestsInfo.id.Clear();
+            TestsInfo.numberOfQuestion.Clear();
+            TestsInfo.titleAndDescription.Clear();
+            #endregion
             DbDataReader dbDataReader = FindToDB.FindTests();
             if (dbDataReader.HasRows)
             {
@@ -64,5 +69,56 @@ namespace SystemOfTrainingAndTesting
             }
             ConnectionToDB.Disconnection();
         }
+        /// <summary>
+        /// Метод для поиска вопросов
+        /// </summary>
+        /// <param name="idTest">Идентификатор теста</param>
+        internal static void FindQuestions(int idTest)
+        {
+            #region Удаление старой информации о вопросах
+            QuestionsInfo.id.Clear();
+            QuestionsInfo.question.Clear();
+            QuestionsInfo.typeAnswer.Clear();
+            #endregion
+            DbDataReader dbDataReader = FindToDB.FindQuestions(idTest);
+            if (dbDataReader.HasRows)
+            {
+                foreach (DbDataRecord dbDataRecord in dbDataReader)
+                {
+                    #region Сохранение информации о вопросах
+                    QuestionsInfo.id.Add(Convert.ToInt32(dbDataRecord["id"]));
+                    QuestionsInfo.question.Add(dbDataRecord["question"].ToString());
+                    QuestionsInfo.typeAnswer.Add(Convert.ToInt32(dbDataRecord["type_answer"]));
+                    #endregion
+                }
+            }
+            ConnectionToDB.Disconnection();
+        }
+        /// <summary>
+        /// Метод для поиска ответов
+        /// </summary>
+        /// <param name="idQuestion">Идентификатор вопроса</param>
+        internal static void FindAnswers(int idQuestion)
+        {
+            #region Удаление старой информации об ответах
+            AnswersInfo.id.Clear();
+            AnswersInfo.answer.Clear();
+            AnswersInfo.correctAnswer.Clear();
+            #endregion
+            DbDataReader dbDataReader = FindToDB.FindAnswers(idQuestion);
+            if (dbDataReader.HasRows)
+            {
+                foreach (DbDataRecord dbDataRecord in dbDataReader)
+                {
+                    #region Сохранение информации об ответах
+                    AnswersInfo.id.Add(Convert.ToInt32(dbDataRecord["id"]));
+                    AnswersInfo.answer.Add(dbDataRecord["answer"].ToString());
+                    AnswersInfo.correctAnswer.Add(Convert.ToBoolean(dbDataRecord["correct_answer"]));
+                    #endregion
+                }
+            }
+            ConnectionToDB.Disconnection();
+        }
+
     }
 }
