@@ -25,7 +25,7 @@ namespace SystemOfTrainingAndTesting
         /// <summary>
         /// Список выбранных ответов
         /// </summary>
-        private string _selectedAnswerString;
+        private List<string> _selectedAnswerString = new List<string>();
 
         /// <summary>
         /// Список верных ответов
@@ -35,7 +35,7 @@ namespace SystemOfTrainingAndTesting
         /// <summary>
         /// Список ответов
         /// </summary>
-        private readonly List<string> _answerString = new List<string>();
+        private readonly List<int> _answerId = new List<int>();
 
         public Form1()
         {
@@ -352,7 +352,7 @@ namespace SystemOfTrainingAndTesting
             #region Убираем элементы с формы
             Controls.Clear();
             #endregion
-            _selectedAnswerString = null;
+            _selectedAnswerString.Clear();
             SystemOfTrainingAndTesting.Select.SelectAnswers(QuestionsInfo.Id[_questionNumber]);
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
@@ -406,11 +406,31 @@ namespace SystemOfTrainingAndTesting
                         radioButtonAnswer.Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i * 3 * 13);
                         answerLocation = radioButtonAnswer.Location;
                         radioButtonAnswer.CheckedChanged += radioButtonAnswer_CheckedChanged;
-                        if (_answerString.Contains(radioButtonAnswer.Text))
+                        if (_answerId.Contains(AnswersInfo.Id[i]))
                         {
                             radioButtonAnswer.Checked = true;
                         }
                         Controls.Add(radioButtonAnswer);
+                    }
+                    break;
+                #endregion
+                #region Выбор нескольких вариантов ответа
+                case 1:
+                    for (int i = 0; i < AnswersInfo.Answer.Count; i++)
+                    {
+                        CheckBox checkBoxAnswer = new CheckBox();
+                        checkBoxAnswer.Parent = this;
+                        checkBoxAnswer.Text = AnswersInfo.Answer[i];
+                        checkBoxAnswer.Visible = true;
+                        checkBoxAnswer.AutoSize = true;
+                        checkBoxAnswer.Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i * 3 * 13);
+                        answerLocation = checkBoxAnswer.Location;
+                        checkBoxAnswer.CheckStateChanged += checkBoxAnswer_CheckStateChanged;
+                        if (_answerId.Contains(AnswersInfo.Id[i]))
+                        {
+                            checkBoxAnswer.CheckState = CheckState.Checked;
+                        }
+                        Controls.Add(checkBoxAnswer);
                     }
                     break;
                 #endregion
@@ -491,7 +511,7 @@ namespace SystemOfTrainingAndTesting
             #region Сброс в начальное значение счетчика и очистка списков
             _questionNumber = 0;
             _correctAnswers.Clear();
-            _answerString.Clear();
+            _answerId.Clear();
             #endregion
             CreateQuestionWindow();
             //MessageBox.Show("Click to select button", "Click message", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -504,16 +524,31 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
+            int i = 0; //Счетчик количества данных верных ответов на вопрос
+            List<bool> answer = AnswersInfo.CorrectAnswer.FindAll(p => p); //Для определения количества верных ответов на вопрос
             #region Добавление очередного ответа в список и проверка на правильность
-            if (_selectedAnswerString != null)
+            foreach (string selectedAnswerString in _selectedAnswerString)
             {
-                _answerString.Add(_selectedAnswerString);
-                int index = AnswersInfo.Answer.IndexOf(_selectedAnswerString);
+                int index = AnswersInfo.Answer.IndexOf(selectedAnswerString);
+                #region Удаляем все сохраненные ответы на текущий вопрос
+                foreach (int id in AnswersInfo.Id)
+                {
+                    if(_answerId.Contains(id))
+                    {
+                        _answerId.Remove(id);
+                    }
+                }
+                #endregion
+                _answerId.Add(AnswersInfo.Id[index]);
                 if (AnswersInfo.CorrectAnswer[index])
                 {
                     if (!_correctAnswers.Contains(QuestionsInfo.Id[_questionNumber]))
                     {
-                        _correctAnswers.Add(QuestionsInfo.Id[_questionNumber]);
+                        i++;
+                        if (i == answer.Count)
+                        {
+                            _correctAnswers.Add(QuestionsInfo.Id[_questionNumber]);
+                        }
                     }
                 }
                 else
@@ -522,6 +557,7 @@ namespace SystemOfTrainingAndTesting
                     {
                         _correctAnswers.Remove(QuestionsInfo.Id[_questionNumber]);
                     }
+                    break;
                 }
             }
             #endregion
@@ -542,9 +578,19 @@ namespace SystemOfTrainingAndTesting
         private void buttonPrevious_Click(object sender, EventArgs e)
         {
             #region Добавление очередного ответа в список
-            if (_selectedAnswerString != null)
+            foreach (string selectedAnswerString in _selectedAnswerString)
             {
-                _answerString.Add(_selectedAnswerString);
+                int index = AnswersInfo.Answer.IndexOf(selectedAnswerString);
+                #region Удаляем все сохраненные ответы на текущий вопрос
+                foreach (int id in AnswersInfo.Id)
+                {
+                    if (_answerId.Contains(id))
+                    {
+                        _answerId.Remove(id);
+                    }
+                }
+                #endregion
+                _answerId.Add(AnswersInfo.Id[index]);
             }
             #endregion
             _questionNumber--;
@@ -570,9 +616,22 @@ namespace SystemOfTrainingAndTesting
             }
             if (radioButton.Checked)
             {
-                _selectedAnswerString = radioButton.Text;
+                _selectedAnswerString.Clear();
+                _selectedAnswerString.Add(radioButton.Text);
             }
+        }
 
+        private void checkBoxAnswer_CheckStateChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            if (checkBox == null)
+            {
+                return;
+            }
+            if (checkBox.CheckState == CheckState.Checked)
+            {
+                _selectedAnswerString.Add(checkBox.Text);
+            }
         }
     }
 }
