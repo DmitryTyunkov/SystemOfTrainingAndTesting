@@ -52,78 +52,90 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #region Размещаем нужные элементы на форму
             #region Добавляем label для отображения информации о пользователе
-            Label labelUser = new Label();
-            labelUser.Parent = this;
-            labelUser.Text = _userString;
-            labelUser.AutoSize = true;
-            labelUser.Visible = true;
+            Label labelUser = new Label
+            {
+                Parent = this, 
+                Text = _userString, 
+                AutoSize = true, 
+                Visible = true
+            };
             labelUser.Location = new Point(ClientSize.Width - (labelUser.Width + 13), 13);
             Controls.Add(labelUser);
             #endregion
             #region Добавляем label для отображения заголовка
-            Label labelTitle = new Label();
-            labelTitle.Parent = this;
-            labelTitle.Text = @"Выбирите необходимый режим";
-            labelTitle.Font = new Font("Microsoft Sans Serif", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            labelTitle.AutoSize = true;
-            labelTitle.Visible = true;
+            Label labelTitle = new Label
+            {
+                Parent = this,
+                Text = @"Выбирите необходимый режим",
+                Font = new Font("Microsoft Sans Serif", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 204),
+                AutoSize = true,
+                Visible = true
+            };
             labelTitle.Location = new Point(ClientSize.Width / 2 - labelTitle.Width / 2,
                 labelUser.Height + labelUser.Location.Y + 13);
             Controls.Add(labelTitle);
             #endregion
             #region Добавляем кнопку "Обучение"
-            Button buttonTraining = new Button();
-            buttonTraining.Parent = this;
-            buttonTraining.Text = @"Обучение";
-            buttonTraining.Size = new Size(75 * 3, 23 * 3);
+            Button buttonTraining = new Button
+            {
+                Parent = this,
+                Text = @"Обучение",
+                Size = new Size(75*3, 23*3),
+                Visible = true,
+                TabIndex = 0
+            };
             buttonTraining.Location = new Point(ClientSize.Width / 2 - buttonTraining.Width / 2,
                 labelTitle.Height + labelTitle.Location.Y + 13);
-            buttonTraining.Visible = true;
-            buttonTraining.TabIndex = 0;
-            buttonTraining.Click += buttonTraining_Click;
             Controls.Add(buttonTraining);
+            buttonTraining.Click += buttonTraining_Click;
             #endregion
             #region Добавляем кнопку "Тестирование"
-            Button buttonTesting = new Button();
-            buttonTesting.Parent = this;
-            buttonTesting.Text = @"Тестирование";
-            buttonTesting.Size = new Size(75 * 3, 23 * 3);
+            Button buttonTesting = new Button
+            {
+                Parent = this, 
+                Text = @"Тестирование", 
+                Size = new Size(75*3, 23*3),
+                Visible = true,
+                TabIndex = 1
+            };
             buttonTesting.Location = new Point(ClientSize.Width / 2 - buttonTesting.Width / 2,
                 buttonTraining.Height + buttonTraining.Location.Y + 13);
-            buttonTesting.Visible = true;
-            buttonTesting.TabIndex = 1;
-            buttonTesting.Click += buttonTesting_Click;
             Controls.Add(buttonTesting);
+            buttonTesting.Click += buttonTesting_Click;
             #endregion
             #region Добавление кнопки в зависимости от привелегий пользователя
             switch (Info.User.Level)
             {
                 case 0:
                     #region Добавляем кнопку "Управление"
-                    Button buttonControl = new Button();
-                    buttonControl.Parent = this;
-                    buttonControl.Text = @"Управление";
-                    buttonControl.Size = new Size(75 * 3, 23 * 3);
-                    buttonControl.Location = new Point(ClientSize.Width / 2 - buttonTraining.Width / 2,
-                        buttonTesting.Height + buttonTesting.Location.Y + 13);
-                    buttonControl.Visible = true;
-                    buttonControl.TabIndex = 2;
-                    buttonControl.Click += buttonControl_Click;
+                    Button buttonControl = new Button
+                    {
+                        Parent = this,
+                        Text = @"Управление",
+                        Size = new Size(75*3, 23*3),
+                        Location = new Point(ClientSize.Width/2 - buttonTraining.Width/2,
+                            buttonTesting.Height + buttonTesting.Location.Y + 13),
+                        Visible = true,
+                        TabIndex = 2
+                    };
                     Controls.Add(buttonControl);
+                    buttonControl.Click += buttonControl_Click;
                     #endregion
                     break;
                 case 1:
                     #region Добавляем кнопку "Статистика"
-                    Button buttonStatistics = new Button();
-                    buttonStatistics.Parent = this;
-                    buttonStatistics.Text = @"Статистика";
-                    buttonStatistics.Size = new Size(75 * 3, 23 * 3);
-                    buttonStatistics.Location = new Point(ClientSize.Width / 2 - buttonTraining.Width / 2,
-                        buttonTesting.Height + buttonTesting.Location.Y + 13);
-                    buttonStatistics.Visible = true;
-                    buttonStatistics.TabIndex = 2;
-                    buttonStatistics.Click += buttonStatistics_Click;
+                    Button buttonStatistics = new Button
+                    {
+                        Parent = this,
+                        Text = @"Статистика",
+                        Size = new Size(75*3, 23*3),
+                        Location = new Point(ClientSize.Width/2 - buttonTraining.Width/2,
+                            buttonTesting.Height + buttonTesting.Location.Y + 13),
+                        Visible = true,
+                        TabIndex = 2
+                    };
                     Controls.Add(buttonStatistics);
+                    buttonStatistics.Click += buttonStatistics_Click;
                     #endregion
                     break;
                 default:
@@ -143,57 +155,68 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
-            Label labelUser = new Label();
-            labelUser.Parent = this;
-            labelUser.Text = _userString;
-            labelUser.AutoSize = true;
-            labelUser.Visible = true;
+            Label labelUser = new Label
+            {
+                Parent = this, 
+                Text = _userString, 
+                AutoSize = true, 
+                Visible = true
+            };
             labelUser.Location = new Point(ClientSize.Width - (labelUser.Width + 13), 13);
             Controls.Add(labelUser);
             #endregion
             #region Добавляем label для отображения заголовка
-            Label labelTitle = new Label();
-            labelTitle.Parent = this;
-            labelTitle.Text = @"Выбирите необходимую тему";
-            labelTitle.Font = new Font("Microsoft Sans Serif", 21.75F,
-                FontStyle.Regular, GraphicsUnit.Point, 204);
-            labelTitle.AutoSize = true;
-            labelTitle.Visible = true;
+            Label labelTitle = new Label
+            {
+                Parent = this,
+                Text = @"Выбирите необходимую тему",
+                Font = new Font("Microsoft Sans Serif", 21.75F,
+                    FontStyle.Regular, GraphicsUnit.Point, 204),
+                AutoSize = true,
+                Visible = true
+            };
             labelTitle.Location = new Point(ClientSize.Width / 2 - labelTitle.Width / 2,
                 labelUser.Height + labelUser.Location.Y + 13);
             Controls.Add(labelTitle);
             #endregion
             #region Добавляем listBox с доступными темами
-            ListBox listBoxThems = new ListBox();
-            listBoxThems.Parent = this;
-            listBoxThems.TabIndex = 0;
-            listBoxThems.Size = new Size(ClientSize.Width - 26, ClientSize.Height - labelTitle.Location.Y - labelTitle.Height - 13 * 3 - 23);
-            listBoxThems.Visible = true;
-            listBoxThems.Location = new Point(13, labelTitle.Height + labelTitle.Location.Y + 13);
+            ListBox listBoxThems = new ListBox
+            {
+                Parent = this,
+                TabIndex = 0,
+                Size = new Size(ClientSize.Width - 26, 
+                    ClientSize.Height - labelTitle.Location.Y - labelTitle.Height - 13 * 3 - 23),
+                Visible = true,
+                Location = new Point(13, labelTitle.Height + labelTitle.Location.Y + 13)
+            };
             Controls.Add(listBoxThems);
             #endregion
             #region Добавляем кнопку "Выбрать"
-            Button buttonSelect = new Button();
-            buttonSelect.Parent = this;
-            buttonSelect.Text = @"Выбрать";
-            buttonSelect.Size = new Size(75, 23);
+            Button buttonSelect = new Button
+            {
+                Parent = this, 
+                Text = @"Выбрать", 
+                Size = new Size(75, 23),
+                Visible = true,
+                TabIndex = 2
+            };
             buttonSelect.Location = new Point(ClientSize.Width - buttonSelect.Width - 13,
                 listBoxThems.Height + listBoxThems.Location.Y + 13);
-            buttonSelect.Visible = true;
-            buttonSelect.TabIndex = 2;
-            buttonSelect.Click += buttonSelect_Click;
             Controls.Add(buttonSelect);
+            buttonSelect.Click += buttonSelect_Click;
             #endregion
             #region Добавить кнопку "Назад"
-            Button buttonBack = new Button();
-            buttonBack.Parent = this;
-            buttonBack.Text = @"Назад";
-            buttonBack.Size = new Size(75, 23);
-            buttonBack.Location = new Point(13, listBoxThems.Height + listBoxThems.Location.Y + 13);
-            buttonBack.Visible = true;
-            buttonBack.TabIndex = 1;
-            buttonBack.Click += buttonBack_Click;
+            Button buttonBack = new Button
+            {
+                Parent = this,
+                Text = @"Назад",
+                Size = new Size(75, 23),
+                Location = new Point(13, listBoxThems.Height + listBoxThems.Location.Y + 13),
+                Visible = true,
+                TabIndex = 1
+            };
             Controls.Add(buttonBack);
+            buttonBack.Click += buttonBack_Click;
             #endregion
             #endregion
         }
@@ -209,64 +232,75 @@ namespace SystemOfTrainingAndTesting
             SystemOfTrainingAndTesting.Select.SelectTests();
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
-            Label labelUser = new Label();
-            labelUser.Parent = this;
-            labelUser.Text = _userString;
-            labelUser.AutoSize = true;
-            labelUser.Visible = true;
-            labelUser.Location = new Point(ClientSize.Width - (labelUser.Width + 13), 13);
+            Label labelUser = new Label
+            {
+                Parent = this, 
+                Text = _userString,
+                AutoSize = true,
+                Visible = true
+            };
+            labelUser.Location = new Point(ClientSize.Width - labelUser.Width - 13, 13);
             Controls.Add(labelUser);
             #endregion
             #region Добавляем label для отображения заголовка
-            Label labelTitle = new Label();
-            labelTitle.Parent = this;
-            labelTitle.Text = @"Выбирите необходимый тест";
-            labelTitle.Font = new Font("Microsoft Sans Serif", 21.75F,
-                FontStyle.Regular, GraphicsUnit.Point, 204);
-            labelTitle.AutoSize = true;
-            labelTitle.Visible = true;
+            Label labelTitle = new Label
+            {
+                Parent = this,
+                Text = @"Выбирите необходимый тест",
+                Font = new Font("Microsoft Sans Serif", 21.75F,
+                    FontStyle.Regular, GraphicsUnit.Point, 204),
+                AutoSize = true,
+                Visible = true
+            };
             labelTitle.Location = new Point(ClientSize.Width / 2 - labelTitle.Width / 2,
                 labelUser.Height + labelUser.Location.Y + 13);
             Controls.Add(labelTitle);
             #endregion
             #region Добавляем listBox с доступными тестами
-            ListBox listBoxTests = new ListBox();
-            listBoxTests.Parent = this;
-            listBoxTests.TabIndex = 0;
-            listBoxTests.Size = new Size(ClientSize.Width - 26, ClientSize.Height - labelTitle.Location.Y - labelTitle.Height - 13 * 3 - 23);
-            listBoxTests.Visible = true;
-            listBoxTests.Location = new Point(13, labelTitle.Height + labelTitle.Location.Y + 13);
-            listBoxTests.SelectionMode = SelectionMode.One;
+            ListBox listBoxTests = new ListBox
+            {
+                Parent = this,
+                TabIndex = 0,
+                Size = new Size(ClientSize.Width - 26,
+                    ClientSize.Height - labelTitle.Location.Y - labelTitle.Height - 13*3 - 23),
+                Visible = true,
+                Location = new Point(13, labelTitle.Height + labelTitle.Location.Y + 13),
+                SelectionMode = SelectionMode.One
+            };
             foreach (string item in Info.Tests.TitleAndDescription)
             {
                 listBoxTests.Items.Add(item);
             }
+            Controls.Add(listBoxTests);
             listBoxTests.SelectedIndexChanged += listBoxTests_SelectedIndexChanged;
             listBoxTests.SelectedIndex = 0;
-            Controls.Add(listBoxTests);
             #endregion
             #region Добавляем кнопку "Выбрать"
-            Button buttonSelect = new Button();
-            buttonSelect.Parent = this;
-            buttonSelect.Text = @"Выбрать";
-            buttonSelect.Size = new Size(75, 23);
+            Button buttonSelect = new Button 
+            {
+                Parent = this,
+                Text = @"Выбрать", 
+                Size = new Size(75, 23),
+                Visible = true,
+                TabIndex = 2
+            };
             buttonSelect.Location = new Point(ClientSize.Width - buttonSelect.Width - 13,
                 listBoxTests.Height + listBoxTests.Location.Y + 13);
-            buttonSelect.Visible = true;
-            buttonSelect.TabIndex = 2;
-            buttonSelect.Click += buttonSelect_Click;
             Controls.Add(buttonSelect);
+            buttonSelect.Click += buttonSelect_Click;
             #endregion
             #region Добавить кнопку "Назад"
-            Button buttonBack = new Button();
-            buttonBack.Parent = this;
-            buttonBack.Text = @"Назад";
-            buttonBack.Size = new Size(75, 23);
-            buttonBack.Location = new Point(13, listBoxTests.Height + listBoxTests.Location.Y + 13);
-            buttonBack.Visible = true;
-            buttonBack.TabIndex = 1;
-            buttonBack.Click += buttonBack_Click;
+            Button buttonBack = new Button
+            {
+                Parent = this,
+                Text = @"Назад",
+                Size = new Size(75, 23),
+                Location = new Point(13, listBoxTests.Height + listBoxTests.Location.Y + 13),
+                Visible = true,
+                TabIndex = 1
+            };
             Controls.Add(buttonBack);
+            buttonBack.Click += buttonBack_Click;
             #endregion
             #endregion
         }
@@ -281,65 +315,80 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
-            Label labelUser = new Label();
-            labelUser.Parent = this;
-            labelUser.Text = _userString;
-            labelUser.AutoSize = true;
-            labelUser.Visible = true;
+            Label labelUser = new Label
+            {
+                Parent = this, 
+                Text = _userString, 
+                AutoSize = true, 
+                Visible = true
+            };
             labelUser.Location = new Point(ClientSize.Width - (labelUser.Width + 13), 13);
             Controls.Add(labelUser);
             #endregion
             #region Добавление вкладок
-            TabControl tabControl = new TabControl();
-            tabControl.Parent = this;
-            tabControl.Location = new Point(0, labelUser.Height);
-            tabControl.TabIndex = 0;
-            tabControl.Size = new Size(ClientSize.Width, ClientSize.Height - labelUser.Height - 23 - 13 * 2);
-            tabControl.Visible = true;
+            TabControl tabControl = new TabControl
+            {
+                Parent = this,
+                Location = new Point(0, labelUser.Height),
+                TabIndex = 0,
+                Size = new Size(ClientSize.Width, ClientSize.Height - labelUser.Height - 23 - 13*2),
+                Visible = true
+            };
             Controls.Add(tabControl);
-            TabPage tabPageTraining = new TabPage();
-            tabPageTraining.Location = new Point(4, 22);
-            tabPageTraining.Padding = new Padding(3);
-            tabPageTraining.Size = new Size(tabControl.Size.Width - 8, tabControl.Size.Width - 26);
-            tabPageTraining.TabIndex = 0;
-            tabPageTraining.Text = @"Обучение";
+            TabPage tabPageTraining = new TabPage
+            {
+                Location = new Point(4, 22),
+                Padding = new Padding(3),
+                Size = new Size(tabControl.Size.Width - 8, tabControl.Size.Width - 26),
+                TabIndex = 0,
+                Text = @"Обучение"
+            };
             tabControl.Controls.Add(tabPageTraining);
-            TabPage tabPageTesting = new TabPage();
-            tabPageTesting.Location = new Point(4, 22);
-            tabPageTesting.Padding = new Padding(3);
-            tabPageTesting.Size = new Size(tabControl.Size.Width - 8, tabControl.Size.Width - 26);
-            tabPageTesting.TabIndex = 1;
-            tabPageTesting.Text = @"Тестирование";
+            TabPage tabPageTesting = new TabPage
+            {
+                Location = new Point(4, 22),
+                Padding = new Padding(3),
+                Size = new Size(tabControl.Size.Width - 8, tabControl.Size.Width - 26),
+                TabIndex = 1,
+                Text = @"Тестирование"
+            };
             tabControl.Controls.Add(tabPageTesting);
             #endregion
             #region Добавляем listBox с доступными тестами
-            ListBox listBoxTests = new ListBox();
-            //listBoxTests.Parent = this;
-            listBoxTests.TabIndex = 0;
-            listBoxTests.Size = new Size(tabPageTesting.Size.Width - 26, tabPageTesting.Size.Height - 13 * 2);
-            listBoxTests.Visible = true;
-            listBoxTests.Location = new Point(13, 13);
+            ListBox listBoxTests = new ListBox
+            {
+                Size = new Size(tabPageTesting.Size.Width - 26,
+                    tabPageTesting.Size.Height - 13*2),
+                Location = new Point(13, 13),
+                Visible = true,
+                TabIndex = 0
+            };
             tabPageTesting.Controls.Add(listBoxTests);
             #endregion
             #region Добавляем listBox с доступными темами
-            ListBox listBoxThems = new ListBox();
-            //listBoxTests.Parent = this;
-            listBoxThems.TabIndex = 0;
-            listBoxThems.Size = new Size(tabPageTesting.Size.Width - 26, tabPageTesting.Size.Height - 13 * 2);
-            listBoxThems.Visible = true;
-            listBoxThems.Location = new Point(13, 13);
+            ListBox listBoxThems = new ListBox
+            {
+                Size = new Size(tabPageTesting.Size.Width - 26,
+                    tabPageTesting.Size.Height - 13*2),
+                Location = new Point(13, 13),
+                Visible = true,
+                TabIndex = 0
+            };
             tabPageTraining.Controls.Add(listBoxThems);
             #endregion
             #region Добавить кнопку "Назад"
-            Button buttonBack = new Button();
-            buttonBack.Parent = this;
-            buttonBack.Text = @"Назад";
-            buttonBack.Size = new Size(75, 23);
-            buttonBack.Location = new Point(ClientSize.Width / 2 - buttonBack.Width / 2, tabControl.Height + tabControl.Location.Y + 13);
-            buttonBack.Visible = true;
-            buttonBack.TabIndex = 1;
-            buttonBack.Click += buttonBack_Click;
+            Button buttonBack = new Button
+            {
+                Parent = this,
+                Text = @"Назад",
+                Size = new Size(75, 23),
+                Visible = true,
+                TabIndex = 1
+            };
+            buttonBack.Location = new Point(ClientSize.Width / 2 - buttonBack.Width / 2,
+                tabControl.Height + tabControl.Location.Y + 13);
             Controls.Add(buttonBack);
+            buttonBack.Click += buttonBack_Click;
             #endregion
             #endregion
         }
@@ -356,18 +405,27 @@ namespace SystemOfTrainingAndTesting
             SystemOfTrainingAndTesting.Select.SelectAnswers(Info.Questions.Id[_questionNumber]);
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
-            Label labelUser = new Label();
-            labelUser.Parent = this;
-            labelUser.Text = _userString;
-            labelUser.AutoSize = true;
-            labelUser.Visible = true;
+            Label labelUser = new Label
+            {
+                Parent = this, 
+                Text = _userString,
+                AutoSize = true, 
+                Visible = true
+            };
             labelUser.Location = new Point(ClientSize.Width - (labelUser.Width + 13), 13);
             Controls.Add(labelUser);
             #endregion
             #region Добавляем label для отображения вопроса
-            Label labelQuestion = new Label();
-            labelQuestion.Parent = this;
-            labelQuestion.Text = Info.Questions.Question[_questionNumber];
+            Label labelQuestion = new Label
+            {
+                Parent = this,
+                Text = Info.Questions.Question[_questionNumber],
+                TextAlign = ContentAlignment.TopCenter,
+                Font = new Font("Microsoft Sans Serif", 21.75F,
+                    FontStyle.Regular, GraphicsUnit.Point, 204),
+                Visible = true
+            };
+            #region Разбиение вопроса на несколько строк
             int position = 0;
             while (position < labelQuestion.Text.Length - 30)
             {
@@ -381,11 +439,8 @@ namespace SystemOfTrainingAndTesting
                     position = labelQuestion.Text.Length;
                 }
             }
-            labelQuestion.TextAlign = ContentAlignment.TopCenter;
-            labelQuestion.Font = new Font("Microsoft Sans Serif", 21.75F,
-                FontStyle.Regular, GraphicsUnit.Point, 204);
+            #endregion
             labelQuestion.AutoSize = true;
-            labelQuestion.Visible = true;
             labelQuestion.Location = new Point(ClientSize.Width / 2 - labelQuestion.Width / 2,
                 labelUser.Height + labelUser.Location.Y + 13);
             Controls.Add(labelQuestion);
@@ -398,19 +453,21 @@ namespace SystemOfTrainingAndTesting
                 case 0:
                     for (int i = 0; i < Info.Answers.Answer.Count; i++)
                     {
-                        RadioButton radioButtonAnswer = new RadioButton();
-                        radioButtonAnswer.Parent = this;
-                        radioButtonAnswer.Text = Info.Answers.Answer[i];
-                        radioButtonAnswer.Visible = true;
-                        radioButtonAnswer.AutoSize = true;
-                        radioButtonAnswer.Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i * 3 * 13);
+                        RadioButton radioButtonAnswer = new RadioButton
+                        {
+                            Parent = this,
+                            Text = Info.Answers.Answer[i],
+                            Visible = true,
+                            AutoSize = true,
+                            Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i*3*13)
+                        };
+                        Controls.Add(radioButtonAnswer);
                         answerLocation = radioButtonAnswer.Location;
                         radioButtonAnswer.CheckedChanged += radioButtonAnswer_CheckedChanged;
                         if (_answerId.Contains(Info.Answers.Id[i]))
                         {
                             radioButtonAnswer.Checked = true;
                         }
-                        Controls.Add(radioButtonAnswer);
                     }
                     break;
                 #endregion
@@ -418,47 +475,54 @@ namespace SystemOfTrainingAndTesting
                 case 1:
                     for (int i = 0; i < Info.Answers.Answer.Count; i++)
                     {
-                        CheckBox checkBoxAnswer = new CheckBox();
-                        checkBoxAnswer.Parent = this;
-                        checkBoxAnswer.Text = Info.Answers.Answer[i];
-                        checkBoxAnswer.Visible = true;
-                        checkBoxAnswer.AutoSize = true;
-                        checkBoxAnswer.Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i * 3 * 13);
+                        CheckBox checkBoxAnswer = new CheckBox
+                        {
+                            Parent = this,
+                            Text = Info.Answers.Answer[i],
+                            Visible = true,
+                            AutoSize = true,
+                            Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i*3*13),
+                            TabIndex = i
+                        };
+                        Controls.Add(checkBoxAnswer);
                         answerLocation = checkBoxAnswer.Location;
                         checkBoxAnswer.CheckStateChanged += checkBoxAnswer_CheckStateChanged;
                         if (_answerId.Contains(Info.Answers.Id[i]))
                         {
                             checkBoxAnswer.CheckState = CheckState.Checked;
                         }
-                        Controls.Add(checkBoxAnswer);
                     }
                     break;
                 #endregion
             }
             #endregion
             #region Добавляем кнопку "Следующий"
-            Button buttonNext = new Button();
-            buttonNext.Parent = this;
-            buttonNext.Text = _questionNumber == Info.Questions.Id.Count - 1 ? "Завершить" : "Следующий";
-            buttonNext.Size = new Size(85, 23);
+            Button buttonNext = new Button
+            {
+                Parent = this,
+                Text = _questionNumber == Info.Questions.Id.Count - 1 ? "Завершить" : "Следующий",
+                Size = new Size(85, 23),
+                Visible = true,
+                TabIndex = Info.Answers.Answer.Count + 2
+            };
             buttonNext.Location = new Point(ClientSize.Width - buttonNext.Width - 13,
                 answerLocation.Y + 13 * 3);
-            buttonNext.Visible = true;
-            buttonNext.TabIndex = Info.Answers.Answer.Count + 2;
-            buttonNext.Click += buttonNext_Click;
             Controls.Add(buttonNext);
+            buttonNext.Click += buttonNext_Click;
             #endregion
             #region Добавить кнопку "Предыдущий"
-            Button buttonPrevious = new Button();
-            buttonPrevious.Parent = this;
-            buttonPrevious.Text = @"Предыдущий";
-            buttonPrevious.Size = new Size(85, 23);
-            buttonPrevious.Location = new Point(13, answerLocation.Y + 13 * 3);
-            buttonPrevious.Visible = true;
-            buttonPrevious.Enabled = _questionNumber != 0;
-            buttonPrevious.TabIndex = Info.Answers.Answer.Count + 1;
-            buttonPrevious.Click += buttonPrevious_Click;
+            Button buttonPrevious = new Button
+            {
+                Parent = this,
+                Text = @"Предыдущий",
+                Size = new Size(85, 23),
+                Location = new Point(13, answerLocation.Y + 13*3),
+                Visible = true,
+                Enabled = _questionNumber != 0,
+                TabIndex = Info.Answers.Answer.Count + 1,
+            };
             Controls.Add(buttonPrevious);
+            buttonPrevious.Click += buttonPrevious_Click;
             #endregion
             #endregion
         }
@@ -484,19 +548,16 @@ namespace SystemOfTrainingAndTesting
         private void buttonTraining_Click(object sender, EventArgs e)
         {
             CreateTrainingWindow();
-            //MessageBox.Show("Click to training button","Click message",MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonTesting_Click(object sender, EventArgs e)
         {
             CreateTestingWindow();
-            //MessageBox.Show("Click to testing button", "Click message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonStatistics_Click(object sender, EventArgs e)
         {
             CreateStatisticsWindow();
-            //MessageBox.Show("Click to statistics button", "Click message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonControl_Click(object sender, EventArgs e)
@@ -514,7 +575,6 @@ namespace SystemOfTrainingAndTesting
             _answerId.Clear();
             #endregion
             CreateQuestionWindow();
-            //MessageBox.Show("Click to select button", "Click message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -526,19 +586,19 @@ namespace SystemOfTrainingAndTesting
         {
             int i = 0; //Счетчик количества данных верных ответов на вопрос
             List<bool> answer = Info.Answers.CorrectAnswer.FindAll(p => p); //Для определения количества верных ответов на вопрос
+            #region Удаляем все сохраненные ответы на текущий вопрос
+            foreach (int id in Info.Answers.Id)
+            {
+                if (_answerId.Contains(id))
+                {
+                    _answerId.Remove(id);
+                }
+            }
+            #endregion
             #region Добавление очередного ответа в список и проверка на правильность
             foreach (string selectedAnswerString in _selectedAnswerString)
             {
                 int index = Info.Answers.Answer.IndexOf(selectedAnswerString);
-                #region Удаляем все сохраненные ответы на текущий вопрос
-                foreach (int id in Info.Answers.Id)
-                {
-                    if(_answerId.Contains(id))
-                    {
-                        _answerId.Remove(id);
-                    }
-                }
-                #endregion
                 _answerId.Add(Info.Answers.Id[index]);
                 if (Info.Answers.CorrectAnswer[index])
                 {
@@ -565,7 +625,7 @@ namespace SystemOfTrainingAndTesting
             #region Выбор действия в зависимости от типа кнопки
             if (_questionNumber == Info.Questions.Id.Count)
             {
-                MessageBox.Show(_correctAnswers.Count.ToString());
+                MessageBox.Show(@"Верных ответов: "+_correctAnswers.Count,@"Результат",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 CreateMainWindow();
             }
             else
@@ -577,19 +637,19 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonPrevious_Click(object sender, EventArgs e)
         {
+            #region Удаляем все сохраненные ответы на текущий вопрос
+            foreach (int id in Info.Answers.Id)
+            {
+                if (_answerId.Contains(id))
+                {
+                    _answerId.Remove(id);
+                }
+            }
+            #endregion
             #region Добавление очередного ответа в список
             foreach (string selectedAnswerString in _selectedAnswerString)
             {
                 int index = Info.Answers.Answer.IndexOf(selectedAnswerString);
-                #region Удаляем все сохраненные ответы на текущий вопрос
-                foreach (int id in Info.Answers.Id)
-                {
-                    if (_answerId.Contains(id))
-                    {
-                        _answerId.Remove(id);
-                    }
-                }
-                #endregion
                 _answerId.Add(Info.Answers.Id[index]);
             }
             #endregion
@@ -616,8 +676,11 @@ namespace SystemOfTrainingAndTesting
             }
             if (radioButton.Checked)
             {
-                _selectedAnswerString.Clear();
                 _selectedAnswerString.Add(radioButton.Text);
+            }
+            if (!radioButton.Checked && _selectedAnswerString.Contains(radioButton.Text))
+            {
+                _selectedAnswerString.Remove(radioButton.Text);
             }
         }
 
@@ -631,6 +694,10 @@ namespace SystemOfTrainingAndTesting
             if (checkBox.CheckState == CheckState.Checked)
             {
                 _selectedAnswerString.Add(checkBox.Text);
+            }
+            if (checkBox.CheckState == CheckState.Unchecked && _selectedAnswerString.Contains(checkBox.Text))
+            {
+                _selectedAnswerString.Remove(checkBox.Text);
             }
         }
     }
