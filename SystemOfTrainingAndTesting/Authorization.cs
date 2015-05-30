@@ -16,7 +16,7 @@
         {
             if (Select.SelectUser(loginString.Trim().ToLower(), passwordString.Trim()))
             {
-                userString = UserInfo.Login + " (" + UserInfo.LastName + " " + UserInfo.Name.Substring(0, 1) + ". " + UserInfo.MiddleName.Substring(0, 1) + ".)";
+                userString = Info.User.Login + " (" + Info.User.LastName + " " + Info.User.Name.Substring(0, 1) + ". " + Info.User.MiddleName.Substring(0, 1) + ".)";
                 return true;
             }
             userString = "Неверное имя пользователя или пароль";

@@ -25,7 +25,7 @@ namespace SystemOfTrainingAndTesting
         /// <summary>
         /// Список выбранных ответов
         /// </summary>
-        private List<string> _selectedAnswerString = new List<string>();
+        private readonly List<string> _selectedAnswerString = new List<string>();
 
         /// <summary>
         /// Список верных ответов
@@ -96,7 +96,7 @@ namespace SystemOfTrainingAndTesting
             Controls.Add(buttonTesting);
             #endregion
             #region Добавление кнопки в зависимости от привелегий пользователя
-            switch (UserInfo.Level)
+            switch (Info.User.Level)
             {
                 case 0:
                     #region Добавляем кнопку "Управление"
@@ -237,7 +237,7 @@ namespace SystemOfTrainingAndTesting
             listBoxTests.Visible = true;
             listBoxTests.Location = new Point(13, labelTitle.Height + labelTitle.Location.Y + 13);
             listBoxTests.SelectionMode = SelectionMode.One;
-            foreach (string item in TestsInfo.TitleAndDescription)
+            foreach (string item in Info.Tests.TitleAndDescription)
             {
                 listBoxTests.Items.Add(item);
             }
@@ -353,7 +353,7 @@ namespace SystemOfTrainingAndTesting
             Controls.Clear();
             #endregion
             _selectedAnswerString.Clear();
-            SystemOfTrainingAndTesting.Select.SelectAnswers(QuestionsInfo.Id[_questionNumber]);
+            SystemOfTrainingAndTesting.Select.SelectAnswers(Info.Questions.Id[_questionNumber]);
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
             Label labelUser = new Label();
@@ -367,7 +367,7 @@ namespace SystemOfTrainingAndTesting
             #region Добавляем label для отображения вопроса
             Label labelQuestion = new Label();
             labelQuestion.Parent = this;
-            labelQuestion.Text = QuestionsInfo.Question[_questionNumber];
+            labelQuestion.Text = Info.Questions.Question[_questionNumber];
             int position = 0;
             while (position < labelQuestion.Text.Length - 30)
             {
@@ -392,21 +392,21 @@ namespace SystemOfTrainingAndTesting
             #endregion
             #region Добавляем ответы
             Point answerLocation = new Point();
-            switch (QuestionsInfo.TypeAnswer[_questionNumber])
+            switch (Info.Questions.TypeAnswer[_questionNumber])
             {
                 #region Выбор одного варианта ответа
                 case 0:
-                    for (int i = 0; i < AnswersInfo.Answer.Count; i++)
+                    for (int i = 0; i < Info.Answers.Answer.Count; i++)
                     {
                         RadioButton radioButtonAnswer = new RadioButton();
                         radioButtonAnswer.Parent = this;
-                        radioButtonAnswer.Text = AnswersInfo.Answer[i];
+                        radioButtonAnswer.Text = Info.Answers.Answer[i];
                         radioButtonAnswer.Visible = true;
                         radioButtonAnswer.AutoSize = true;
                         radioButtonAnswer.Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i * 3 * 13);
                         answerLocation = radioButtonAnswer.Location;
                         radioButtonAnswer.CheckedChanged += radioButtonAnswer_CheckedChanged;
-                        if (_answerId.Contains(AnswersInfo.Id[i]))
+                        if (_answerId.Contains(Info.Answers.Id[i]))
                         {
                             radioButtonAnswer.Checked = true;
                         }
@@ -416,17 +416,17 @@ namespace SystemOfTrainingAndTesting
                 #endregion
                 #region Выбор нескольких вариантов ответа
                 case 1:
-                    for (int i = 0; i < AnswersInfo.Answer.Count; i++)
+                    for (int i = 0; i < Info.Answers.Answer.Count; i++)
                     {
                         CheckBox checkBoxAnswer = new CheckBox();
                         checkBoxAnswer.Parent = this;
-                        checkBoxAnswer.Text = AnswersInfo.Answer[i];
+                        checkBoxAnswer.Text = Info.Answers.Answer[i];
                         checkBoxAnswer.Visible = true;
                         checkBoxAnswer.AutoSize = true;
                         checkBoxAnswer.Location = new Point(13, labelQuestion.Height + labelQuestion.Location.Y + 13 + i * 3 * 13);
                         answerLocation = checkBoxAnswer.Location;
                         checkBoxAnswer.CheckStateChanged += checkBoxAnswer_CheckStateChanged;
-                        if (_answerId.Contains(AnswersInfo.Id[i]))
+                        if (_answerId.Contains(Info.Answers.Id[i]))
                         {
                             checkBoxAnswer.CheckState = CheckState.Checked;
                         }
@@ -439,12 +439,12 @@ namespace SystemOfTrainingAndTesting
             #region Добавляем кнопку "Следующий"
             Button buttonNext = new Button();
             buttonNext.Parent = this;
-            buttonNext.Text = _questionNumber == QuestionsInfo.Id.Count - 1 ? "Завершить" : "Следующий";
+            buttonNext.Text = _questionNumber == Info.Questions.Id.Count - 1 ? "Завершить" : "Следующий";
             buttonNext.Size = new Size(85, 23);
             buttonNext.Location = new Point(ClientSize.Width - buttonNext.Width - 13,
                 answerLocation.Y + 13 * 3);
             buttonNext.Visible = true;
-            buttonNext.TabIndex = AnswersInfo.Answer.Count + 2;
+            buttonNext.TabIndex = Info.Answers.Answer.Count + 2;
             buttonNext.Click += buttonNext_Click;
             Controls.Add(buttonNext);
             #endregion
@@ -456,7 +456,7 @@ namespace SystemOfTrainingAndTesting
             buttonPrevious.Location = new Point(13, answerLocation.Y + 13 * 3);
             buttonPrevious.Visible = true;
             buttonPrevious.Enabled = _questionNumber != 0;
-            buttonPrevious.TabIndex = AnswersInfo.Answer.Count + 1;
+            buttonPrevious.TabIndex = Info.Answers.Answer.Count + 1;
             buttonPrevious.Click += buttonPrevious_Click;
             Controls.Add(buttonPrevious);
             #endregion
@@ -506,8 +506,8 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonSelect_Click(object sender, EventArgs e)
         {
-            int index = TestsInfo.TitleAndDescription.IndexOf(_selectedTestString);
-            SystemOfTrainingAndTesting.Select.SelectQuestions(TestsInfo.Id[index]);
+            int index = Info.Tests.TitleAndDescription.IndexOf(_selectedTestString);
+            SystemOfTrainingAndTesting.Select.SelectQuestions(Info.Tests.Id[index]);
             #region Сброс в начальное значение счетчика и очистка списков
             _questionNumber = 0;
             _correctAnswers.Clear();
@@ -525,13 +525,13 @@ namespace SystemOfTrainingAndTesting
         private void buttonNext_Click(object sender, EventArgs e)
         {
             int i = 0; //Счетчик количества данных верных ответов на вопрос
-            List<bool> answer = AnswersInfo.CorrectAnswer.FindAll(p => p); //Для определения количества верных ответов на вопрос
+            List<bool> answer = Info.Answers.CorrectAnswer.FindAll(p => p); //Для определения количества верных ответов на вопрос
             #region Добавление очередного ответа в список и проверка на правильность
             foreach (string selectedAnswerString in _selectedAnswerString)
             {
-                int index = AnswersInfo.Answer.IndexOf(selectedAnswerString);
+                int index = Info.Answers.Answer.IndexOf(selectedAnswerString);
                 #region Удаляем все сохраненные ответы на текущий вопрос
-                foreach (int id in AnswersInfo.Id)
+                foreach (int id in Info.Answers.Id)
                 {
                     if(_answerId.Contains(id))
                     {
@@ -539,23 +539,23 @@ namespace SystemOfTrainingAndTesting
                     }
                 }
                 #endregion
-                _answerId.Add(AnswersInfo.Id[index]);
-                if (AnswersInfo.CorrectAnswer[index])
+                _answerId.Add(Info.Answers.Id[index]);
+                if (Info.Answers.CorrectAnswer[index])
                 {
-                    if (!_correctAnswers.Contains(QuestionsInfo.Id[_questionNumber]))
+                    if (!_correctAnswers.Contains(Info.Questions.Id[_questionNumber]))
                     {
                         i++;
                         if (i == answer.Count)
                         {
-                            _correctAnswers.Add(QuestionsInfo.Id[_questionNumber]);
+                            _correctAnswers.Add(Info.Questions.Id[_questionNumber]);
                         }
                     }
                 }
                 else
                 {
-                    if (_correctAnswers.Contains(QuestionsInfo.Id[_questionNumber]))
+                    if (_correctAnswers.Contains(Info.Questions.Id[_questionNumber]))
                     {
-                        _correctAnswers.Remove(QuestionsInfo.Id[_questionNumber]);
+                        _correctAnswers.Remove(Info.Questions.Id[_questionNumber]);
                     }
                     break;
                 }
@@ -563,7 +563,7 @@ namespace SystemOfTrainingAndTesting
             #endregion
             _questionNumber++;
             #region Выбор действия в зависимости от типа кнопки
-            if (_questionNumber == QuestionsInfo.Id.Count)
+            if (_questionNumber == Info.Questions.Id.Count)
             {
                 MessageBox.Show(_correctAnswers.Count.ToString());
                 CreateMainWindow();
@@ -580,9 +580,9 @@ namespace SystemOfTrainingAndTesting
             #region Добавление очередного ответа в список
             foreach (string selectedAnswerString in _selectedAnswerString)
             {
-                int index = AnswersInfo.Answer.IndexOf(selectedAnswerString);
+                int index = Info.Answers.Answer.IndexOf(selectedAnswerString);
                 #region Удаляем все сохраненные ответы на текущий вопрос
-                foreach (int id in AnswersInfo.Id)
+                foreach (int id in Info.Answers.Id)
                 {
                     if (_answerId.Contains(id))
                     {
@@ -590,7 +590,7 @@ namespace SystemOfTrainingAndTesting
                     }
                 }
                 #endregion
-                _answerId.Add(AnswersInfo.Id[index]);
+                _answerId.Add(Info.Answers.Id[index]);
             }
             #endregion
             _questionNumber--;

@@ -22,20 +22,20 @@ namespace SystemOfTrainingAndTesting
                 foreach (DbDataRecord dbDataRecord in dbDataReader)
                 {
                     #region Сохранение информации о пользователя
-                    UserInfo.Id = Convert.ToInt32(dbDataRecord["id"]);
-                    UserInfo.Login = dbDataRecord["login"].ToString();
-                    UserInfo.LastName = dbDataRecord["last_name"].ToString();
-                    UserInfo.Name = dbDataRecord["name"].ToString();
-                    UserInfo.MiddleName = dbDataRecord["middle_name"].ToString();
-                    UserInfo.Post = dbDataRecord["post"].ToString();
-                    UserInfo.Birthday = dbDataRecord["birthday"].ToString();
-                    UserInfo.Level = Convert.ToInt32(dbDataRecord["level"]);
+                    Info.User.Id = Convert.ToInt32(dbDataRecord["id"]);
+                    Info.User.Login = dbDataRecord["login"].ToString();
+                    Info.User.LastName = dbDataRecord["last_name"].ToString();
+                    Info.User.Name = dbDataRecord["name"].ToString();
+                    Info.User.MiddleName = dbDataRecord["middle_name"].ToString();
+                    Info.User.Post = dbDataRecord["post"].ToString();
+                    Info.User.Birthday = dbDataRecord["birthday"].ToString();
+                    Info.User.Level = Convert.ToInt32(dbDataRecord["level"]);
                     #endregion
                 }
                 ConnectionToDb.Disconnection();
                 return true;
             }
-            UserInfo.Level = 3;
+            Info.User.Level = 3;
             ConnectionToDb.Disconnection();
             return false;
         }
@@ -46,9 +46,9 @@ namespace SystemOfTrainingAndTesting
         internal static void SelectTests()
         {
             #region Удаление старой информации о тестах
-            TestsInfo.Id.Clear();
-            TestsInfo.NumberOfQuestion.Clear();
-            TestsInfo.TitleAndDescription.Clear();
+            Info.Tests.Id.Clear();
+            Info.Tests.NumberOfQuestion.Clear();
+            Info.Tests.TitleAndDescription.Clear();
             #endregion
             DbDataReader dbDataReader = SelectFromDb.SelectTests();
             if (dbDataReader.HasRows)
@@ -56,9 +56,9 @@ namespace SystemOfTrainingAndTesting
                 foreach (DbDataRecord dbDataRecord in dbDataReader)
                 {
                     #region Сохранение информации о тестах
-                    TestsInfo.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
-                    TestsInfo.NumberOfQuestion.Add(Convert.ToInt32(dbDataRecord["number_of_questions"]));
-                    TestsInfo.TitleAndDescription.Add(dbDataRecord["concat"].ToString());
+                    Info.Tests.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
+                    Info.Tests.NumberOfQuestion.Add(Convert.ToInt32(dbDataRecord["number_of_questions"]));
+                    Info.Tests.TitleAndDescription.Add(dbDataRecord["concat"].ToString());
                     #endregion
                 }
             }
@@ -72,9 +72,9 @@ namespace SystemOfTrainingAndTesting
         internal static void SelectQuestions(int idTest)
         {
             #region Удаление старой информации о вопросах
-            QuestionsInfo.Id.Clear();
-            QuestionsInfo.Question.Clear();
-            QuestionsInfo.TypeAnswer.Clear();
+            Info.Questions.Id.Clear();
+            Info.Questions.Question.Clear();
+            Info.Questions.TypeAnswer.Clear();
             #endregion
             DbDataReader dbDataReader = SelectFromDb.SelectQuestions(idTest);
             if (dbDataReader.HasRows)
@@ -82,9 +82,9 @@ namespace SystemOfTrainingAndTesting
                 foreach (DbDataRecord dbDataRecord in dbDataReader)
                 {
                     #region Сохранение информации о вопросах
-                    QuestionsInfo.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
-                    QuestionsInfo.Question.Add(dbDataRecord["question"].ToString());
-                    QuestionsInfo.TypeAnswer.Add(Convert.ToInt32(dbDataRecord["type_answer"]));
+                    Info.Questions.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
+                    Info.Questions.Question.Add(dbDataRecord["question"].ToString());
+                    Info.Questions.TypeAnswer.Add(Convert.ToInt32(dbDataRecord["type_answer"]));
                     #endregion
                 }
             }
@@ -98,9 +98,9 @@ namespace SystemOfTrainingAndTesting
         internal static void SelectAnswers(int idQuestion)
         {
             #region Удаление старой информации об ответах
-            AnswersInfo.Id.Clear();
-            AnswersInfo.Answer.Clear();
-            AnswersInfo.CorrectAnswer.Clear();
+            Info.Answers.Id.Clear();
+            Info.Answers.Answer.Clear();
+            Info.Answers.CorrectAnswer.Clear();
             #endregion
             DbDataReader dbDataReader = SelectFromDb.SelectAnswers(idQuestion);
             if (dbDataReader.HasRows)
@@ -108,9 +108,9 @@ namespace SystemOfTrainingAndTesting
                 foreach (DbDataRecord dbDataRecord in dbDataReader)
                 {
                     #region Сохранение информации об ответах
-                    AnswersInfo.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
-                    AnswersInfo.Answer.Add(dbDataRecord["answer"].ToString());
-                    AnswersInfo.CorrectAnswer.Add(Convert.ToBoolean(dbDataRecord["correct_answer"]));
+                    Info.Answers.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
+                    Info.Answers.Answer.Add(dbDataRecord["answer"].ToString());
+                    Info.Answers.CorrectAnswer.Add(Convert.ToBoolean(dbDataRecord["correct_answer"]));
                     #endregion
                 }
             }
