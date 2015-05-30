@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SystemOfTrainingAndTesting
 {
@@ -14,14 +10,16 @@ namespace SystemOfTrainingAndTesting
         /// <summary>
         /// Идентифекатор
         /// </summary>
-        internal static List<int> id = new List<int>();
+        internal static List<int> Id = new List<int>();
+
         /// <summary>
         /// Название и описание
         /// </summary>
-        internal static List<string> titleAndDescription = new List<string>();
+        internal static List<string> TitleAndDescription = new List<string>();
+
         /// <summary>
         /// Количество вопросов
         /// </summary>
-        internal static List<int> numberOfQuestion = new List<int>();
+        internal static List<int> NumberOfQuestion = new List<int>();
     }
 }

@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SystemOfTrainingAndTesting
 {
     static class AnswersInfo
     {
-        internal static List<int> id = new List<int>();
-        internal static List<string> answer = new List<string>();
-        internal static List<bool> correctAnswer = new List<bool>(); 
+        /// <summary>
+        /// Идентификатор
+        /// </summary>
+        internal static List<int> Id = new List<int>();
+
+        /// <summary>
+        /// Ответ
+        /// </summary>
+        internal static List<string> Answer = new List<string>();
+
+        /// <summary>
+        /// Верный ли ответ
+        /// </summary>
+        internal static List<bool> CorrectAnswer = new List<bool>();
     }
 }

@@ -49,9 +49,9 @@
   <ItemGroup>
     <Compile Include="AnswersInfo.cs" />
     <Compile Include="Authorization.cs" />
-    <Compile Include="ConnectionToDB.cs" />
-    <Compile Include="Find.cs" />
-    <Compile Include="FindToDB.cs" />
+    <Compile Include="ConnectionToDb.cs" />
+    <Compile Include="Select.cs" />
+    <Compile Include="SelectFromDb.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

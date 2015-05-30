@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SystemOfTrainingAndTesting
+﻿namespace SystemOfTrainingAndTesting
 {
     /// <summary>
     /// Класс хранящий информацию о пользователе
@@ -14,30 +8,41 @@ namespace SystemOfTrainingAndTesting
         /// <summary>
         /// Фамилия
         /// </summary>
-        internal static string lastName;
+        internal static string LastName;
+
         /// <summary>
         /// Имя
         /// </summary>
-        internal static string name;
+        internal static string Name;
+
         /// <summary>
         /// Отчество
         /// </summary>
-        internal static string middleName;
+        internal static string MiddleName;
+
         /// <summary>
         /// День рождения
         /// </summary>
-        internal static string birthday;
+        internal static string Birthday;
+
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        internal static string login;
+        internal static string Login;
+
         /// <summary>
         /// Должность
         /// </summary>
-        internal static string post;
+        internal static string Post;
+
         /// <summary>
         /// Уровень доступа
         /// </summary>
-        internal static int level;
+        internal static int Level;
+
+        /// <summary>
+        /// Идентификатор
+        /// </summary>
+        internal static int Id;
     }
 }
