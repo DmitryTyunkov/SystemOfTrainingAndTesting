@@ -229,7 +229,6 @@ namespace SystemOfTrainingAndTesting
             #region Убираем элементы с формы
             Controls.Clear();
             #endregion
-            SystemOfTrainingAndTesting.Select.SelectTests();
             #region Размещаем нужные элементы на форме
             #region Добавляем label для отображения информации о пользователе
             Label labelUser = new Label
@@ -354,16 +353,44 @@ namespace SystemOfTrainingAndTesting
             };
             tabControl.Controls.Add(tabPageTesting);
             #endregion
-            #region Добавляем listBox с доступными тестами
-            ListBox listBoxTests = new ListBox
+            #region Добавляем таблицу с доступными тестами
+            DataGridView dataGridViewTests = new DataGridView
             {
+                Location = new Point(13, 13),
                 Size = new Size(tabPageTesting.Size.Width - 26,
                     tabPageTesting.Size.Height - 13*2),
-                Location = new Point(13, 13),
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells,
+                AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells,
                 Visible = true,
-                TabIndex = 0
+                ReadOnly = true
             };
-            tabPageTesting.Controls.Add(listBoxTests);
+            dataGridViewTests.Columns.Add("tests", "Тесты");
+            dataGridViewTests.Columns.Add("number_of_correct_answers", "Количество верных ответов");
+            dataGridViewTests.Columns.Add("number_of_question", "Количество вопросов");
+            dataGridViewTests.Columns.Add("percent", "Процент");
+            foreach (int idTest in Info.Tests.Id)
+            {
+                int index = Info.Tests.Id.IndexOf(idTest);
+                int numberOfQuestion = Info.Tests.NumberOfQuestion[index];
+                string[] row = new string[4];
+                row[0] = Info.Tests.Title[index];
+                index = Info.Statistics.IdTest.IndexOf(idTest);
+                if (index == -1)
+                {
+                    row[1] = "не пройдено";
+                    row[2] = numberOfQuestion.ToString();
+                }
+                else
+                {
+                    int numberOfCorrectAnswer = Info.Statistics.NumberOfCorrectAnswer[index];
+                    double percent = Convert.ToDouble(numberOfCorrectAnswer)/numberOfQuestion;
+                    row[1] = numberOfCorrectAnswer.ToString();
+                    row[2] = numberOfQuestion.ToString();
+                    row[3] = percent.ToString("P");
+                }
+                dataGridViewTests.Rows.Add(row);
+            }
+            tabPageTesting.Controls.Add(dataGridViewTests);
             #endregion
             #region Добавляем listBox с доступными темами
             ListBox listBoxThems = new ListBox
@@ -552,11 +579,14 @@ namespace SystemOfTrainingAndTesting
 
         private void buttonTesting_Click(object sender, EventArgs e)
         {
+            SystemOfTrainingAndTesting.Select.SelectTests();
             CreateTestingWindow();
         }
 
         private void buttonStatistics_Click(object sender, EventArgs e)
         {
+            SystemOfTrainingAndTesting.Select.SelectTests();
+            SystemOfTrainingAndTesting.Select.SelectStatistics();
             CreateStatisticsWindow();
         }
 
@@ -626,6 +656,8 @@ namespace SystemOfTrainingAndTesting
             if (_questionNumber == Info.Questions.Id.Count)
             {
                 MessageBox.Show(@"Верных ответов: "+_correctAnswers.Count,@"Результат",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                int index = Info.Tests.TitleAndDescription.IndexOf(_selectedTestString);
+                Insert.InsertStatistic(Info.Tests.Id[index], _correctAnswers.Count);
                 CreateMainWindow();
             }
             else

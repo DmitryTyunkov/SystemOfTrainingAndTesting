@@ -59,6 +59,7 @@ namespace SystemOfTrainingAndTesting
                     Info.Tests.Id.Add(Convert.ToInt32(dbDataRecord["id"]));
                     Info.Tests.NumberOfQuestion.Add(Convert.ToInt32(dbDataRecord["number_of_questions"]));
                     Info.Tests.TitleAndDescription.Add(dbDataRecord["concat"].ToString());
+                    Info.Tests.Title.Add(dbDataRecord["title"].ToString());
                     #endregion
                 }
             }
@@ -115,6 +116,30 @@ namespace SystemOfTrainingAndTesting
                 }
             }
             ConnectionToDb.Disconnection();
+        }
+
+        /// <summary>
+        /// Метод для выбора статистики пользователя
+        /// </summary>
+        internal static void SelectStatistics()
+        {
+            #region Удаление старой информации о статистике
+            Info.Statistics.IdTest.Clear();
+            Info.Statistics.NumberOfCorrectAnswer.Clear();
+            #endregion
+            DbDataReader dbDataReader = SelectFromDb.SelectStatistics(Info.User.Id);
+            if (dbDataReader.HasRows)
+            {
+                foreach (DbDataRecord dbDataRecord in dbDataReader)
+                {
+                    #region Сохранение информации об ответах
+                    Info.Statistics.IdTest.Add(Convert.ToInt32(dbDataRecord["id_test"]));
+                    Info.Statistics.NumberOfCorrectAnswer.Add(Convert.ToInt32(dbDataRecord["number_of_correct_answers"]));
+                    #endregion
+                }
+            }
+            ConnectionToDb.Disconnection();
+
         }
     }
 }

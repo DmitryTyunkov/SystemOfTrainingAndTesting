@@ -77,6 +77,10 @@ namespace SystemOfTrainingAndTesting
             /// </summary>
             internal static List<int> NumberOfQuestion = new List<int>();
 
+            /// <summary>
+            /// Название
+            /// </summary>
+            internal static List<string> Title = new List<string>();
         }
 
         /// <summary>
@@ -121,6 +125,21 @@ namespace SystemOfTrainingAndTesting
             /// </summary>
             internal static List<bool> CorrectAnswer = new List<bool>();
 
+        }
+
+        /// <summary>
+        /// Структура для хранения информации о статистике
+        /// </summary>
+        internal struct Statistics
+        {
+            /// <summary>
+            /// Идентификатор теста
+            /// </summary>
+            internal static List<int> IdTest = new List<int>();
+            /// <summary>
+            /// Количество верных ответов
+            /// </summary>
+            internal static List<int> NumberOfCorrectAnswer = new List<int>();
         }
     }
 }

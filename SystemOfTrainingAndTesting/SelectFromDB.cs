@@ -16,8 +16,7 @@ namespace SystemOfTrainingAndTesting
         /// <returns></returns>
         internal static DbDataReader SelectUser(string loginString, string passwordString)
         {
-            NpgsqlConnection npgsqlConnection;
-            npgsqlConnection = ConnectionToDb.Connection();
+            NpgsqlConnection npgsqlConnection = ConnectionToDb.Connection();
             NpgsqlCommand npgsqlCommand =
                 new NpgsqlCommand(
                     string.Format("SELECT * FROM users WHERE login = '{0}' AND password = '{1}'", loginString,
@@ -32,11 +31,10 @@ namespace SystemOfTrainingAndTesting
         /// </summary>
         internal static DbDataReader SelectTests()
         {
-            NpgsqlConnection npgsqlConnection;
-            npgsqlConnection = ConnectionToDb.Connection();
+            NpgsqlConnection npgsqlConnection = ConnectionToDb.Connection();
             NpgsqlCommand npgsqlCommand =
                 new NpgsqlCommand(
-                    string.Format("SELECT id, concat(title,'. ',description), number_of_questions FROM tests"),
+                    string.Format("SELECT id, title, concat(title,'. ',description), number_of_questions FROM tests"),
                     npgsqlConnection);
             NpgsqlDataReader npgsqlDataReader = npgsqlCommand.ExecuteReader();
             DbDataReader dbDataReader = npgsqlDataReader;
@@ -50,8 +48,7 @@ namespace SystemOfTrainingAndTesting
         /// <returns></returns>
         internal static DbDataReader SelectQuestions(int idTest)
         {
-            NpgsqlConnection npgsqlConnection;
-            npgsqlConnection = ConnectionToDb.Connection();
+            NpgsqlConnection npgsqlConnection = ConnectionToDb.Connection();
             NpgsqlCommand npgsqlCommand =
                 new NpgsqlCommand(
                     string.Format("SELECT id, question, type_answer FROM questions WHERE id_test = {0}", idTest),
@@ -68,8 +65,7 @@ namespace SystemOfTrainingAndTesting
         /// <returns></returns>
         internal static DbDataReader SelectAnswers(int idQuestion)
         {
-            NpgsqlConnection npgsqlConnection;
-            npgsqlConnection = ConnectionToDb.Connection();
+            NpgsqlConnection npgsqlConnection = ConnectionToDb.Connection();
             NpgsqlCommand npgsqlCommand =
                 new NpgsqlCommand(
                     string.Format("SELECT id, answer, correct_answer FROM answers WHERE id_question = {0}", idQuestion),
@@ -77,6 +73,24 @@ namespace SystemOfTrainingAndTesting
             NpgsqlDataReader npgsqlDataReader = npgsqlCommand.ExecuteReader();
             DbDataReader dbDataReader = npgsqlDataReader;
             return dbDataReader;
+        }
+
+        /// <summary>
+        /// Метод для выбора статистики пользователя из базы данных
+        /// </summary>
+        /// <param name="idUser">Идентификатор пользователя</param>
+        /// <returns></returns>
+        internal static DbDataReader SelectStatistics(int idUser)
+        {
+            NpgsqlConnection npgsqlConnection = ConnectionToDb.Connection();
+            NpgsqlCommand npgsqlCommand =
+                new NpgsqlCommand(
+                    string.Format("SELECT id_test, number_of_correct_answers FROM statistics WHERE id_user = {0}", idUser),
+                    npgsqlConnection);
+            NpgsqlDataReader npgsqlDataReader = npgsqlCommand.ExecuteReader();
+            DbDataReader dbDataReader = npgsqlDataReader;
+            return dbDataReader;
+
         }
     }
 }
