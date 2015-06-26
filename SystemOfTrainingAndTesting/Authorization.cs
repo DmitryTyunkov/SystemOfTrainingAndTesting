@@ -14,7 +14,7 @@
         /// <returns></returns>
         internal static bool Auth(string loginString, string passwordString, out string userString)
         {
-            if (Select.SelectUser(loginString.Trim().ToLower(), passwordString.Trim()))
+            if (Select.SelectUser(loginString.Trim(), passwordString.Trim()))
             {
                 userString = Info.User.Login + " (" + Info.User.LastName + " " + Info.User.Name.Substring(0, 1) + ". " + Info.User.MiddleName.Substring(0, 1) + ".)";
                 return true;

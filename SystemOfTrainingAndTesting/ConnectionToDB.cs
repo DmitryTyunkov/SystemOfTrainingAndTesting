@@ -12,7 +12,7 @@ namespace SystemOfTrainingAndTesting
         /// <summary>
         /// Строка подключения к базе данных
         /// </summary>
-        private const string ConnectionString = "Server=192.168.1.3;Port=5432;User=postgres;Password=postgres;Database=vkrb;";
+        private const string ConnectionString = "Server=192.168.1.3;Port=5432;User=postgres;Password=postgres;Database=data;";
 
         static readonly NpgsqlConnection NpgsqlConnection = new NpgsqlConnection(ConnectionString);
         

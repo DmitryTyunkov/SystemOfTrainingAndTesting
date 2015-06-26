@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace SystemOfTrainingAndTesting
 {
@@ -36,5 +31,32 @@ namespace SystemOfTrainingAndTesting
             MessageBox.Show(@"Не удалось сохранить результат", @"Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
+
+        /// <summary>
+        /// Метод для сохранения статистики обучения пользователя
+        /// </summary>
+        /// <param name="idEducationTest">Идентификатор обучающего теста</param>
+        /// <param name="numberOfCorrectAnswer">Количество верных ответов</param>
+        internal static void InsertEducationStatistic(int idEducationTest, int numberOfCorrectAnswer)
+        {
+            int insertCount = InsertIntoDb.InsertEducationStatistic(Info.User.Id, idEducationTest, numberOfCorrectAnswer);
+            if (insertCount == 1)
+            {
+                ConnectionToDb.Disconnection();
+                return;
+            }
+            ConnectionToDb.Disconnection();
+            int updateCount = UpdateToDb.UpdateEducationStatistics(Info.User.Id, idEducationTest, numberOfCorrectAnswer);
+            if (updateCount == 1)
+            {
+                ConnectionToDb.Disconnection();
+                return;
+            }
+            ConnectionToDb.Disconnection();
+            MessageBox.Show(@"Не удалось сохранить результат", @"Error", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+
+        
     }
 }

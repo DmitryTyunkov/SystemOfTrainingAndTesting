@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Npgsql;
 
 namespace SystemOfTrainingAndTesting
@@ -35,5 +30,30 @@ namespace SystemOfTrainingAndTesting
             }
             return count;
         }
+
+                /// <summary>
+        /// Метод для обновления записи о статистике пользователя
+        /// </summary>
+        /// <param name="idUser">Идентификатор пользователя</param>
+        /// <param name="idEducationTest">Идентификатор теста</param>
+        /// <param name="numberOfCorrectAnswer">Количество верных ответов</param>
+        /// <returns></returns>
+        internal static int UpdateEducationStatistics(int idUser, int idEducationTest, int numberOfCorrectAnswer)
+        {
+            NpgsqlConnection npgsqlConnection = ConnectionToDb.Connection();
+            NpgsqlCommand npgsqlCommand = new NpgsqlCommand(string.Format("UPDATE education_statistics SET number_of_correct_answers = {2} WHERE id_user = {0} AND id_education_test = {1}", idUser, idEducationTest, numberOfCorrectAnswer), npgsqlConnection);
+            int count;
+            try
+            {
+                count = npgsqlCommand.ExecuteNonQuery();
+            }
+            catch (NotSupportedException)
+            {
+                count = 0;
+            }
+            return count;
+        }
+
+        
     }
 }
